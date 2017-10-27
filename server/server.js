@@ -9,6 +9,6 @@ var app = express();
 // This is static middleware 
 app.use(express.static(publicPath));
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log(`Started on port ${port}.`);
 });
