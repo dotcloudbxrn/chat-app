@@ -8,5 +8,23 @@
 </head>
 <body>
   <h1> Will be a chat app </h1>
+  
+  <!-- load socket library on the browser -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // method -> initiating the request
+    // from the client to the server
+    // to open a socket - listen to the
+    // server and send data to it
+    var socket = io();
+
+    socket.on('connect', () => {
+      console.log('Connected to server.')
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from server.')
+    })
+  </script>
 </body>
 </html>
