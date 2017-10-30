@@ -5,36 +5,28 @@ const socketIO = require('socket.io');
 
 const publicPath = path.join(__dirname, './../public');
 const port = process.env.PORT || 3000;
-
 var app = express();
-// This is static middleware 
-app.use(express.static(publicPath));
-
 var server = http.createServer(app);
-// creates a web sockets server ->
-// -> emitting and receiving events 
 var io = socketIO(server);
+
+app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
   console.log('New user connected');
 
-  socket.emit('newMessage', {
-    createdAt: 1234,
-    from : 'me',
-    text: 'this is some message'
-  });
-
-  socket.on('createMessage', (data) => {
-    console.log(data);
+  socket.on('createMessage', (message) => {
+    console.log('createMessage' ,message);
+    io.emit('newMessage', {
+      from: message.from,
+      text: message.text,
+      createdAt: new Date().getTime()
+    })
   });
   
   socket.on('disconnect', () => {
     console.log('User disconnected.');
   });
 });
-
-
-
 
 server.listen(port, () => {
   console.log(`Started on port ${port}.`);
