@@ -18,10 +18,24 @@ var io = socketIO(server);
 io.on('connection', (socket) => {
   console.log('New user connected');
 
+  socket.emit('newMessage', {
+    createdAt: 1234,
+    from : 'me',
+    text: 'this is some message'
+  });
+
+  socket.on('createMessage', (data) => {
+    console.log(data);
+  });
+  
   socket.on('disconnect', () => {
-    console.log('User disconnected.')
-  })
+    console.log('User disconnected.');
+  });
 });
+
+
+
+
 server.listen(port, () => {
   console.log(`Started on port ${port}.`);
 });
